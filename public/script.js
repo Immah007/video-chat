@@ -6,6 +6,9 @@ const config = {
 };
 
 const videoContainer = document.getElementById('videoContainer');
+const masterVideoContainer = document.getElementById('master-video-container');
+const slaveVideoContainer = document.getElementById('slave-video-container');
+
 const peers = {}; // Store peer connections
 
 // Start video stream
@@ -16,7 +19,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         localVideo.autoplay = true;
         localVideo.muted = true;
         localVideo.id = 'localVideo';
-        videoContainer.appendChild(localVideo);
+        masterVideoContainer.appendChild(localVideo);
 
         // When a new user connects, create a peer connection
         socket.on('new-user', (userId) => {
@@ -65,7 +68,7 @@ function createPeerConnection(userId, localStream) {
             remoteVideo = document.createElement('video');
             remoteVideo.id = userId;
             remoteVideo.autoplay = true;
-            videoContainer.appendChild(remoteVideo);
+            slaveVideoContainer.appendChild(remoteVideo);
         }
         remoteVideo.srcObject = event.streams[0];
     };
